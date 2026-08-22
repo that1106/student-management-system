@@ -16,7 +16,7 @@
 
 * `login(): boolean` - Checks the user's login information.
 * `logout(): void` - Logs the user out of the system.
-* `changePassword(): void` - Changes the current password.
+* `changePassword(newPassword: String): void` - Changes the current password with the new provided password.
 
 ### Responsibility
 
@@ -70,8 +70,8 @@ The Admin class is responsible for managing students, teachers, classes, subject
 
 * `viewClass(): void` - Views the classes assigned to the teacher.
 * `viewStudent(): void` - Views students in the assigned classes.
-* `enterGrade(): void` - Enters grades for students.
-* `updateGrade(): void` - Updates student grades.
+* `enterGrade(enrollmentId: int, score: double): void` - Enters a grade for a specific student enrollment.
+* `updateGrade(enrollmentId: int, score: double): void` - Updates a grade for a specific student enrollment.
 * `viewSchedule(): void` - Views the teaching schedule.
 
 ### Responsibility
@@ -113,7 +113,7 @@ The Student class is used for students to view their personal information, grade
 
 ### Description
 
-`TeachingAssignment` stores the assignment of a teacher to a class and a subject in a specific semester.
+`TeachingAssignment` stores the assignment of a teacher to a class and a subject in a specific semester and academic year.
 
 ### Attributes
 
@@ -122,6 +122,7 @@ The Student class is used for students to view their personal information, grade
 * `subjectId`: int - ID of the subject.
 * `assignmentId`: int - ID of the teaching assignment.
 * `semester`: int - Semester of the assignment.
+* `academicYear`: String - Academic year of the assignment.
 
 ### Methods
 
@@ -130,7 +131,7 @@ The Student class is used for students to view their personal information, grade
 
 ### Responsibility
 
-This class is used to keep track of which teacher teaches which subject and class.
+This class is responsible for managing teacher assignments for specific subjects, classes, semesters, and academic years.
 
 ---
 
@@ -149,14 +150,13 @@ This class is used to keep track of which teacher teaches which subject and clas
 
 ### Methods
 
-* `addStudent(): void` - Adds a student to the class.
-* `removeStudent(): void` - Removes a student from the class.
-* `assignTeacher(): void` - Assigns a teacher to the class.
+* `addStudent(student: Student): void` - Adds a student to the class.
+* `removeStudent(studentId: int): void` - Removes a student from the class using student ID.
 * `viewStudents(): void` - Displays the students in the class.
 
 ### Responsibility
 
-The ClassRoom class is responsible for storing class information and managing the students and teachers related to the class.
+The ClassRoom class is responsible for storing class information and managing the students enrolled in the class.
 
 ---
 
@@ -189,14 +189,15 @@ The Subject class is used to store and manage information about subjects.
 
 ### Description
 
-`Enrollment` represents the registration of a student for a subject. It records which student registers for which subject and in which semester.
+`Enrollment` represents the registration of a student for a subject in a specific semester and academic year.
 
 ### Attributes
 
+* `enrollmentId`: int - ID of the enrollment.
 * `studentId`: int - ID of the student.
 * `subjectId`: int - ID of the subject.
-* `enrollmentId`: int - ID of the enrollment.
 * `semester`: int - Semester of the enrollment.
+* `academicYear`: String - Academic year of the enrollment.
 * `enrollmentDate`: Date - Date when the student registers for the subject.
 
 ### Methods
@@ -206,7 +207,7 @@ The Subject class is used to store and manage information about subjects.
 
 ### Responsibility
 
-The Enrollment class is used to manage student subject registration.
+The Enrollment class is used to manage student subject registration across semesters and academic years.
 
 ---
 
@@ -214,27 +215,23 @@ The Enrollment class is used to manage student subject registration.
 
 ### Description
 
-`Grade` stores the grade information of a student for a subject.
+`Grade` stores the grade information corresponding to a specific student enrollment.
 
 ### Attributes
 
-* `studentId`: int - ID of the student.
-* `subjectId`: int - ID of the subject.
-* `gradeId`: int - ID of the grade.
+* `gradeId`: int - ID of the grade record.
+* `enrollmentId`: int - ID of the associated enrollment record.
 * `score`: double - Score of the student.
-* `semester`: int - Semester of the grade.
-* `academicYear`: String - Academic year of the grade.
 
 ### Methods
 
-* `enterGrade(): void` - Enters a grade for a student.
-* `updateGrade(): void` - Updates a grade.
-* `calculateAverage(): double` - Calculates the average score.
+* `enterGrade(score: double): void` - Enters a grade for an enrollment.
+* `updateGrade(score: double): void` - Updates the grade score.
 * `getResult(): String` - Returns the academic result.
 
 ### Responsibility
 
-The Grade class is used to store and process student scores and academic results.
+The Grade class stores and updates score details for each enrollment.
 
 ---
 
@@ -249,9 +246,10 @@ The Grade class is used to store and process student scores and academic results
            /  |  \
           /   |   \
        Admin Teacher Student
+
 ```
 
-The `User` class contains the common account functions, while the three subclasses have their own functions.
+The `User` class contains common account functions, while the three subclasses have their own specific functions.
 
 ### Teacher and TeachingAssignment
 
@@ -259,6 +257,7 @@ A teacher can have many teaching assignments.
 
 ```text
 Teacher 1 -------- 0..* TeachingAssignment
+
 ```
 
 ### ClassRoom and TeachingAssignment
@@ -267,6 +266,7 @@ A class can have many teaching assignments.
 
 ```text
 ClassRoom 1 -------- 0..* TeachingAssignment
+
 ```
 
 ### Subject and TeachingAssignment
@@ -275,6 +275,7 @@ A subject can be used in many teaching assignments.
 
 ```text
 Subject 1 -------- 0..* TeachingAssignment
+
 ```
 
 ### ClassRoom and Student
@@ -283,6 +284,7 @@ One class can contain many students.
 
 ```text
 ClassRoom 1 -------- 0..* Student
+
 ```
 
 ### Student and Enrollment
@@ -291,6 +293,7 @@ A student can have many enrollments.
 
 ```text
 Student 1 -------- 0..* Enrollment
+
 ```
 
 ### Subject and Enrollment
@@ -299,20 +302,26 @@ A subject can have many enrollments.
 
 ```text
 Subject 1 -------- 0..* Enrollment
+
 ```
 
 ### Enrollment and Grade
 
-An enrollment can have grade information.
+An enrollment has at most one final grade record.
 
 ```text
-Enrollment 1 -------- 0..* Grade
+Enrollment 1 -------- 0..1 Grade
+
 ```
 
 ---
 
 # 11. Summary
 
-The classes in the Student Management System have different responsibilities. `User` provides common account functions, while `Admin`, `Teacher`, and `Student` represent different types of users.
+The classes in the Student Management System have distinct responsibilities. `User` provides common account functions, while `Admin`, `Teacher`, and `Student` represent different user roles.
 
-`ClassRoom` and `Subject` store information about classes and subjects. `TeachingAssignment` connects teachers with classes and subjects. `Enrollment` manages subject registration, and `Grade` stores and calculates students' academic results.
+`ClassRoom` and `Subject` store structural information about classes and subjects. `TeachingAssignment` connects teachers with classes and subjects for specific semesters and academic years. `Enrollment` manages subject registration, and `Grade` references an enrollment record to store final academic evaluation results.
+
+```
+
+```
