@@ -4,17 +4,17 @@
 
 This document describes the attributes used in the Student Management System database.
 
-The attributes are based directly on the Class Description.
+The attributes are based directly on the Class Description, ERD, and Database Schema.
 
 ---
 
 # 2. User
 
-| Attribute | Data Type    | Constraint       | Description             |
-| --------- | ------------ | ---------------- | ----------------------- |
-| userId    | INT          | PK               | ID of the user          |
-| username  | VARCHAR(50)  | UNIQUE, NOT NULL | Username used to log in |
-| password  | VARCHAR(255) | NOT NULL         | Password of the account |
+| Attribute    | Data Type    | Constraint       | Description                             |
+| ------------ | ------------ | ---------------- | --------------------------------------- |
+| userId       | INT          | PK               | ID of the user                          |
+| username     | VARCHAR(50)  | UNIQUE, NOT NULL | Username used to log in                 |
+| passwordHash | VARCHAR(255) | NOT NULL         | Encrypted password hash of the account  |
 
 ### Relationship
 
@@ -46,7 +46,7 @@ The `Admin` table stores administrator information used for managing students, t
 | fullName    | VARCHAR(100) | NOT NULL             | Full name of the teacher     |
 | dateOfBirth | DATE         |                      | Date of birth of the teacher |
 | gender      | VARCHAR(10)  |                      | Gender of the teacher        |
-| phone       | VARCHAR(20)  |                      | Phone number of the teacher  |
+| phone       | VARCHAR(15)  |                      | Phone number of the teacher  |
 | email       | VARCHAR(100) | UNIQUE               | Email address of the teacher |
 
 ### Responsibility
@@ -61,11 +61,12 @@ The `Teacher` table stores information about teachers who can view classes, view
 | ----------- | ------------ | -------------------- | ---------------------------- |
 | studentId   | INT          | PK                   | ID of the student            |
 | userId      | INT          | FK, UNIQUE, NOT NULL | ID of the related User       |
+| classId     | INT          | FK                   | ID of the associated class   |
 | fullName    | VARCHAR(100) | NOT NULL             | Full name of the student     |
 | dateOfBirth | DATE         | NOT NULL             | Date of birth of the student |
 | gender      | VARCHAR(10)  |                      | Gender of the student        |
 | address     | VARCHAR(255) |                      | Address of the student       |
-| phone       | VARCHAR(20)  |                      | Phone number of the student  |
+| phone       | VARCHAR(15)  |                      | Phone number of the student  |
 | email       | VARCHAR(100) | UNIQUE               | Email address of the student |
 
 ### Responsibility
@@ -76,32 +77,33 @@ The `Student` table stores personal and academic-related information of students
 
 # 6. TeachingAssignment
 
-| Attribute    | Data Type | Constraint   | Description                   |
-| ------------ | --------- | ------------ | ----------------------------- |
-| assignmentId | INT       | PK           | ID of the teaching assignment |
-| teacherId    | INT       | FK, NOT NULL | ID of the teacher             |
-| classId      | INT       | FK, NOT NULL | ID of the class               |
-| subjectId    | INT       | FK, NOT NULL | ID of the subject             |
-| semester     | INT       | NOT NULL     | Semester of the assignment    |
+| Attribute    | Data Type   | Constraint   | Description                   |
+| ------------ | ----------- | ------------ | ----------------------------- |
+| assignmentId | INT         | PK           | ID of the teaching assignment |
+| teacherId    | INT         | FK, NOT NULL | ID of the teacher             |
+| classId      | INT         | FK, NOT NULL | ID of the class               |
+| subjectId    | INT         | FK, NOT NULL | ID of the subject             |
+| semester     | INT         | NOT NULL     | Semester of the assignment    |
+| academicYear | VARCHAR(20) | NOT NULL     | Academic year of the assignment |
 
 ### Responsibility
 
-The `TeachingAssignment` table keeps track of which teacher teaches which subject and class.
+The `TeachingAssignment` table keeps track of which teacher teaches which subject and class in a specific semester and academic year.
 
 ---
 
 # 7. ClassRoom
 
-| Attribute  | Data Type    | Constraint | Description              |
-| ---------- | ------------ | ---------- | ------------------------ |
-| classId    | INT          | PK         | ID of the class          |
-| className  | VARCHAR(100) | NOT NULL   | Name of the class        |
-| grade      | INT          | NOT NULL   | Grade of the class       |
-| schoolYear | VARCHAR(20)  | NOT NULL   | School year of the class |
+| Attribute  | Data Type   | Constraint | Description              |
+| ---------- | ----------- | ---------- | ------------------------ |
+| classId    | INT         | PK         | ID of the class          |
+| className  | VARCHAR(50) | NOT NULL   | Name of the class        |
+| grade      | INT         | NOT NULL   | Grade of the class       |
+| schoolYear | VARCHAR(20) | NOT NULL   | School year of the class |
 
 ### Responsibility
 
-The `ClassRoom` table stores class information and supports the management of students and teachers related to the class.
+The `ClassRoom` table stores class information and supports the management of students in the class.
 
 ---
 
@@ -121,34 +123,32 @@ The `Subject` table stores and manages information about subjects.
 
 # 9. Enrollment
 
-| Attribute      | Data Type | Constraint   | Description                     |
-| -------------- | --------- | ------------ | ------------------------------- |
-| enrollmentId   | INT       | PK           | ID of the enrollment            |
-| studentId      | INT       | FK, NOT NULL | ID of the student               |
-| subjectId      | INT       | FK, NOT NULL | ID of the subject               |
-| semester       | INT       | NOT NULL     | Semester of the enrollment      |
-| enrollmentDate | DATE      | NOT NULL     | Date when the student registers |
+| Attribute      | Data Type   | Constraint   | Description                     |
+| -------------- | ----------- | ------------ | ------------------------------- |
+| enrollmentId   | INT         | PK           | ID of the enrollment            |
+| studentId      | INT         | FK, NOT NULL | ID of the student               |
+| subjectId      | INT         | FK, NOT NULL | ID of the subject               |
+| semester       | INT         | NOT NULL     | Semester of the enrollment      |
+| academicYear   | VARCHAR(20) | NOT NULL     | Academic year of the enrollment |
+| enrollmentDate | DATE        | NOT NULL     | Date when the student registers |
 
 ### Responsibility
 
-The `Enrollment` table manages student subject registration.
+The `Enrollment` table manages student subject registration across semesters and academic years.
 
 ---
 
 # 10. Grade
 
-| Attribute    | Data Type        | Constraint   | Description                |
-| ------------ | ---------------- | ------------ | -------------------------- |
-| gradeId      | INT              | PK           | ID of the grade            |
-| studentId    | INT              | FK, NOT NULL | ID of the student          |
-| subjectId    | INT              | FK, NOT NULL | ID of the subject          |
-| score        | DOUBLE PRECISION | NOT NULL     | Score of the student       |
-| semester     | INT              | NOT NULL     | Semester of the grade      |
-| academicYear | VARCHAR(20)      | NOT NULL     | Academic year of the grade |
+| Attribute    | Data Type | Constraint                   | Description                               |
+| ------------ | --------- | ---------------------------- | ----------------------------------------- |
+| gradeId      | INT       | PK                           | ID of the grade record                    |
+| enrollmentId | INT       | FK, UNIQUE, NOT NULL         | ID of the related Enrollment record       |
+| score        | DOUBLE    | NOT NULL, CHECK (0 <= score <= 10) | Final score of the student |
 
 ### Responsibility
 
-The `Grade` table stores and processes student scores and academic results.
+The `Grade` table stores and updates final score details corresponding to each enrollment record.
 
 ---
 
@@ -160,7 +160,7 @@ This section maps the attributes in the Class Description to the database fields
 | ------------------ | -------------- | ------------------------------- |
 | User               | userId         | User.userId                     |
 | User               | username       | User.username                   |
-| User               | password       | User.password                   |
+| User               | password       | User.passwordHash               |
 | Admin              | adminId        | Admin.adminId                   |
 | Admin              | fullName       | Admin.fullName                  |
 | Admin              | email          | Admin.email                     |
@@ -171,6 +171,7 @@ This section maps the attributes in the Class Description to the database fields
 | Teacher            | phone          | Teacher.phone                   |
 | Teacher            | email          | Teacher.email                   |
 | Student            | studentId      | Student.studentId               |
+| Student            | classId        | Student.classId                 |
 | Student            | fullName       | Student.fullName                |
 | Student            | dateOfBirth    | Student.dateOfBirth             |
 | Student            | gender         | Student.gender                  |
@@ -182,6 +183,7 @@ This section maps the attributes in the Class Description to the database fields
 | TeachingAssignment | subjectId      | TeachingAssignment.subjectId    |
 | TeachingAssignment | assignmentId   | TeachingAssignment.assignmentId |
 | TeachingAssignment | semester       | TeachingAssignment.semester     |
+| TeachingAssignment | academicYear   | TeachingAssignment.academicYear |
 | ClassRoom          | classId        | ClassRoom.classId               |
 | ClassRoom          | className      | ClassRoom.className             |
 | ClassRoom          | grade          | ClassRoom.grade                 |
@@ -189,17 +191,15 @@ This section maps the attributes in the Class Description to the database fields
 | Subject            | subjectId      | Subject.subjectId               |
 | Subject            | subjectName    | Subject.subjectName             |
 | Subject            | credits        | Subject.credits                 |
+| Enrollment         | enrollmentId   | Enrollment.enrollmentId         |
 | Enrollment         | studentId      | Enrollment.studentId            |
 | Enrollment         | subjectId      | Enrollment.subjectId            |
-| Enrollment         | enrollmentId   | Enrollment.enrollmentId         |
 | Enrollment         | semester       | Enrollment.semester             |
+| Enrollment         | academicYear   | Enrollment.academicYear         |
 | Enrollment         | enrollmentDate | Enrollment.enrollmentDate       |
-| Grade              | studentId      | Grade.studentId                 |
-| Grade              | subjectId      | Grade.subjectId                 |
 | Grade              | gradeId        | Grade.gradeId                   |
+| Grade              | enrollmentId   | Grade.enrollmentId              |
 | Grade              | score          | Grade.score                     |
-| Grade              | semester       | Grade.semester                  |
-| Grade              | academicYear   | Grade.academicYear              |
 
 ---
 
@@ -216,7 +216,7 @@ This section maps the attributes in the Class Description to the database fields
 | ClassRoom  | Contains     | Student            | 1 - 0..*     |
 | Student    | Has          | Enrollment         | 1 - 0..*     |
 | Subject    | Has          | Enrollment         | 1 - 0..*     |
-| Enrollment | Has          | Grade              | 1 - 0..*     |
+| Enrollment | Has          | Grade              | 1 - 0..1     |
 
 ---
 
@@ -228,30 +228,33 @@ This section maps the attributes in the Class Description to the database fields
 | FK         | Foreign Key. References another table     |
 | UNIQUE     | Prevents duplicate values                 |
 | NOT NULL   | The field must have a value               |
+| CHECK      | Validates field values within a range     |
 
 ---
 
 # 14. Foreign Key Summary
 
-| Table              | Foreign Key | References        |
-| ------------------ | ----------- | ----------------- |
-| Admin              | userId      | User.userId       |
-| Teacher            | userId      | User.userId       |
-| Student            | userId      | User.userId       |
-| TeachingAssignment | teacherId   | Teacher.teacherId |
-| TeachingAssignment | classId     | ClassRoom.classId |
-| TeachingAssignment | subjectId   | Subject.subjectId |
-| Enrollment         | studentId   | Student.studentId |
-| Enrollment         | subjectId   | Subject.subjectId |
-| Grade              | studentId   | Student.studentId |
-| Grade              | subjectId   | Subject.subjectId |
+| Table              | Foreign Key  | References               |
+| ------------------ | ------------ | ------------------------ |
+| Admin              | userId       | User.userId              |
+| Teacher            | userId       | User.userId              |
+| Student            | userId       | User.userId              |
+| Student            | classId      | ClassRoom.classId        |
+| TeachingAssignment | teacherId    | Teacher.teacherId        |
+| TeachingAssignment | classId      | ClassRoom.classId        |
+| TeachingAssignment | subjectId    | Subject.subjectId        |
+| Enrollment         | studentId    | Student.studentId        |
+| Enrollment         | subjectId    | Subject.subjectId        |
+| Grade              | enrollmentId | Enrollment.enrollmentId |
 
 ---
 
 # 15. Summary
 
-The data dictionary follows the Class Description of the Student Management System.
+The data dictionary follows the Class Description, ERD, and Database Schema of the Student Management System.
 
-The database fields use the same attribute names as the Class Diagram, such as `userId`, `studentId`, `teacherId`, `classId`, `subjectId`, `assignmentId`, `enrollmentId`, and `gradeId`.
+The database fields use standardized attribute names (`userId`, `studentId`, `teacherId`, `classId`, `subjectId`, `assignmentId`, `enrollmentId`, and `gradeId`) and credentials (`passwordHash`).
 
-The database structure also follows the relationships and multiplicities defined between the classes.
+The database structure strictly adheres to the relationships, data types, constraints, and multiplicities defined across all project specifications.
+
+```
