@@ -90,6 +90,8 @@ The `Student` table stores personal and academic-related information of students
 
 The `TeachingAssignment` table keeps track of which teacher teaches which subject and class in a specific semester and academic year.
 
+*Constraint:* UNIQUE(`teacherId`, `classId`, `subjectId`, `semester`, `academicYear`) to prevent duplicate assignments.
+
 ---
 
 # 7. ClassRoom
@@ -135,8 +137,6 @@ The `Subject` table stores and manages information about subjects.
 ### Responsibility
 
 The `Enrollment` table manages student subject registration across semesters and academic years.
-
----
 
 *Constraint:* UNIQUE(`studentId`, `subjectId`, `semester`, `academicYear`) to prevent duplicate enrollments.
 
