@@ -138,6 +138,10 @@ The `Enrollment` table manages student subject registration across semesters and
 
 ---
 
+*Constraint:* UNIQUE(`studentId`, `subjectId`, `semester`, `academicYear`) to prevent duplicate enrollments.
+
+---
+
 # 10. Grade
 
 | Attribute    | Data Type | Constraint                   | Description                               |
