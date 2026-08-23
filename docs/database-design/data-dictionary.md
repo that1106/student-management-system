@@ -14,7 +14,7 @@ The attributes are based directly on the Class Description, ERD, and Database Sc
 | ------------ | ------------ | ---------------- | --------------------------------------- |
 | userId       | INT          | PK               | ID of the user                          |
 | username     | VARCHAR(50)  | UNIQUE, NOT NULL | Username used to log in                 |
-| passwordHash | VARCHAR(255) | NOT NULL         | Encrypted password hash of the account  |
+| passwordHash | VARCHAR(255) | NOT NULL         | Hashed password used for account authentication. |
 
 ### Relationship
 
@@ -61,7 +61,7 @@ The `Teacher` table stores information about teachers who can view classes, view
 | ----------- | ------------ | -------------------- | ---------------------------- |
 | studentId   | INT          | PK                   | ID of the student            |
 | userId      | INT          | FK, UNIQUE, NOT NULL | ID of the related User       |
-| classId     | INT          | FK                   | ID of the associated class   |
+| classId     | INT          | FK, NOT NULL        | ID of the associated class   |
 | fullName    | VARCHAR(100) | NOT NULL             | Full name of the student     |
 | dateOfBirth | DATE         | NOT NULL             | Date of birth of the student |
 | gender      | VARCHAR(10)  |                      | Gender of the student        |
@@ -144,7 +144,7 @@ The `Enrollment` table manages student subject registration across semesters and
 | ------------ | --------- | ---------------------------- | ----------------------------------------- |
 | gradeId      | INT       | PK                           | ID of the grade record                    |
 | enrollmentId | INT       | FK, UNIQUE, NOT NULL         | ID of the related Enrollment record       |
-| score        | DOUBLE    | NOT NULL, CHECK (0 <= score <= 10) | Final score of the student |
+| score        | DOUBLE    | NOT NULL, CHECK (score BETWEEN 0 AND 10) | Final score of the student |
 
 ### Responsibility
 
@@ -171,7 +171,7 @@ This section maps the attributes in the Class Description to the database fields
 | Teacher            | phone          | Teacher.phone                   |
 | Teacher            | email          | Teacher.email                   |
 | Student            | studentId      | Student.studentId               |
-| Student            | classId        | Student.classId                 |
+| ClassRoom–Student association | classId        | Student.classId                 |
 | Student            | fullName       | Student.fullName                |
 | Student            | dateOfBirth    | Student.dateOfBirth             |
 | Student            | gender         | Student.gender                  |
