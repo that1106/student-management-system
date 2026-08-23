@@ -24,11 +24,11 @@ The main tables are:
 
 The `User` table stores common account information used by Admin, Teacher, and Student.
 
-| Column       | Data Type    | Constraint       | Description                             |
-| ------------ | ------------ | ---------------- | --------------------------------------- |
-| userId       | INT          | PK               | ID of the user                          |
-| username     | VARCHAR(50)  | UNIQUE, NOT NULL | Username used to log in                 |
-| passwordHash | VARCHAR(255) | NOT NULL         | Encrypted password hash of the account  |
+| Column       | Data Type    | Constraint       | Description                                      |
+| ------------ | ------------ | ---------------- | ------------------------------------------------ |
+| userId       | INT          | PK               | ID of the user                                   |
+| username     | VARCHAR(50)  | UNIQUE, NOT NULL | Username used to log in                          |
+| passwordHash | VARCHAR(255) | NOT NULL         | Hashed password used for account authentication. |
 
 ---
 
@@ -73,7 +73,7 @@ The `Student` table stores information about students and their associated class
 | ----------- | ------------ | -------------------- | ------------------------ |
 | studentId   | INT          | PK                   | ID of the student        |
 | userId      | INT          | FK, UNIQUE, NOT NULL | Related User             |
-| classId     | INT          | FK                   | ID of the class          |
+| classId     | INT          | FK, NOT NULL         | ID of the class          |
 | fullName    | VARCHAR(100) | NOT NULL             | Full name of the student |
 | dateOfBirth | DATE         | NOT NULL             | Date of birth            |
 | gender      | VARCHAR(10)  |                      | Gender of the student    |
@@ -114,13 +114,13 @@ The `Subject` table stores information about subjects.
 
 The `TeachingAssignment` table stores the assignment of a teacher to a class and a subject in a specific semester and academic year.
 
-| Column       | Data Type   | Constraint   | Description                   |
-| ------------ | ----------- | ------------ | ----------------------------- |
-| assignmentId | INT         | PK           | ID of the teaching assignment |
-| teacherId    | INT         | FK, NOT NULL | ID of the teacher             |
-| classId      | INT         | FK, NOT NULL | ID of the class               |
-| subjectId    | INT         | FK, NOT NULL | ID of the subject             |
-| semester     | INT         | NOT NULL     | Semester of the assignment    |
+| Column       | Data Type   | Constraint   | Description                    |
+| ------------ | ----------- | ------------ | ------------------------------ |
+| assignmentId | INT         | PK           | ID of the teaching assignment  |
+| teacherId    | INT         | FK, NOT NULL | ID of the teacher              |
+| classId      | INT         | FK, NOT NULL | ID of the class                |
+| subjectId    | INT         | FK, NOT NULL | ID of the subject              |
+| semester     | INT         | NOT NULL     | Semester of the assignment     |
 | academicYear | VARCHAR(20) | NOT NULL     | Academic year of the assignment |
 
 *Constraint:* UNIQUE(`teacherId`, `classId`, `subjectId`, `semester`, `academicYear`) to prevent duplicate assignments.
@@ -148,11 +148,11 @@ The `Enrollment` table stores the registration of a student for a subject in a s
 
 The `Grade` table stores the final score corresponding to a student's enrollment record.
 
-| Column       | Data Type | Constraint                   | Description                 |
-| ------------ | --------- | ---------------------------- | --------------------------- |
-| gradeId      | INT       | PK                           | ID of the grade             |
-| enrollmentId | INT       | FK, UNIQUE, NOT NULL         | Related Enrollment record   |
-| score        | DOUBLE    | NOT NULL, CHECK (0 <= score <= 10) | Final score of the student  |
+| Column       | Data Type | Constraint                              | Description                |
+| ------------ | --------- | --------------------------------------- | -------------------------- |
+| gradeId      | INT       | PK                                      | ID of the grade            |
+| enrollmentId | INT       | FK, UNIQUE, NOT NULL                    | Related Enrollment record  |
+| score        | DOUBLE    | NOT NULL, CHECK (score BETWEEN 0 AND 10) | Final score of the student |
 
 ---
 
