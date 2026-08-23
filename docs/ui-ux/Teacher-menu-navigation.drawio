@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="JvZu2lQ3e7y6xT1uoxGh">
+    <mxGraphModel dx="1030" dy="596" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WOu1VjVRpHP13ehhU516-2" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;Teacher menu&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="208" width="230" x="60" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-3" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="1. View Assigned Classes" vertex="1">
+          <mxGeometry height="26" width="230" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-4" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="2. View Student List&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="230" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-5" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="3. Enter&amp;nbsp;Grade&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="230" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-8" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="4. Update Grade&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="230" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-7" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="5. View Schedule&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="230" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-6" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="0. Log out&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="230" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-9" parent="WOu1VjVRpHP13ehhU516-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Choose an option: ____" vertex="1">
+          <mxGeometry height="26" width="230" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-10" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;Enter Grade&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="182" width="240" x="480" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-12" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Enrolllment ID: _________" vertex="1">
+          <mxGeometry height="26" width="240" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-13" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Student Name: __________" vertex="1">
+          <mxGeometry height="26" width="240" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-14" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Subject: ___________" vertex="1">
+          <mxGeometry height="26" width="240" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-15" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Score (0 - 10): _____" vertex="1">
+          <mxGeometry height="26" width="240" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-16" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="1. Save grade&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="240" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-17" parent="WOu1VjVRpHP13ehhU516-10" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="0. Back to Teacher Menu&amp;nbsp;" vertex="1">
+          <mxGeometry height="26" width="240" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="40" width="200" x="60" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Login Screen&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="130" x="95" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-22" edge="1" parent="1" source="WOu1VjVRpHP13ehhU516-9" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.433;exitY=1.054;exitDx=0;exitDy=0;exitPerimeter=0;" target="WOu1VjVRpHP13ehhU516-20" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="160" y="310" as="sourcePoint" />
+            <mxPoint x="210" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-23" edge="1" parent="1" source="WOu1VjVRpHP13ehhU516-16" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="WOu1VjVRpHP13ehhU516-7" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="350" y="150" as="sourcePoint" />
+            <mxPoint x="350" y="221" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-24" edge="1" parent="1" source="WOu1VjVRpHP13ehhU516-4" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="WOu1VjVRpHP13ehhU516-13" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="370" y="80" as="sourcePoint" />
+            <mxPoint x="370" y="151" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="0. Log out&amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="60" x="165" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-26" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Grade saved 0.Back" vertex="1">
+          <mxGeometry height="30" width="170" x="300" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Select 3" vertex="1">
+          <mxGeometry height="30" width="120" x="325" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WOu1VjVRpHP13ehhU516-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Select function" vertex="1">
+          <mxGeometry height="30" width="230" x="270" y="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
