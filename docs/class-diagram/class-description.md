@@ -321,7 +321,3 @@ Enrollment 1 -------- 0..1 Grade
 The classes in the Student Management System have distinct responsibilities. `User` provides common account functions, while `Admin`, `Teacher`, and `Student` represent different user roles.
 
 `ClassRoom` and `Subject` store structural information about classes and subjects. `TeachingAssignment` connects teachers with classes and subjects for specific semesters and academic years. `Enrollment` manages subject registration, and `Grade` references an enrollment record to store final academic evaluation results.
-
-```
-
-```
