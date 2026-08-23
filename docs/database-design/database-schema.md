@@ -292,7 +292,3 @@ The `User` table stores common account credentials (`passwordHash`). `Admin`, `T
 `Enrollment` manages student subject registrations across semesters and academic years.
 
 `Grade` references `Enrollment` directly to record student final scores with valid constraints (0 to 10).
-
-```
-
-```
