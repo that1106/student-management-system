@@ -10,13 +10,15 @@ A group project for developing a system that manages students, classes, courses,
 
 ## Team Members
 
-| Member | Student ID Number | Role | Main Responsibilities |
-|---|---|---|---|
-| Nguyễn Duy Ngọc | 038205031154 | Requirements & DFD Analyst | Requirements, DFD, Student Management, Unit Testing |
-| Nguyễn Mạnh Hùng | 034207000859 | UI/UX & Use Case Designer | User Interface, User Experience, Use Case Diagram |
-| Nguyễn Triều Hải | 066207014787 | System Architect & DB Admin | Class Diagram, Database, Class and Course Management |
-| Trần Văn Thật | 049207011900 | Integration & Docker Engineer | Grade Management, Reports, Integration, GitHub, Docker |
-| Trần Văn Bảo Duy | 089207006909 | QA, Testing & Bug Manager | Test Cases, System Testing, Bug Management, Final Report |
+## 👥 Team Members & Task Assignments
+
+| Member | Student ID | Role | Key Responsibilities |
+| :--- | :---: | :--- | :--- |
+| **Nguyễn Duy Ngọc** | 038205031154 | Lead Developer | Develop, aggregate, and manage application source code (*Source code file*) |
+| **Nguyễn Mạnh Hùng** | 034207000859 | Docker & System Engineer | Build Dockerfile, containerize application, and configure runtime environment (*Docker file*) |
+| **Nguyễn Triều Hải** | 066207014787 | Operations & Tool Manager | Prepare documentation for evidence of tool usage and task assignment (*File containing evidence of tool usage and task assignment*) |
+| **Trần Văn Thật** | 049207011900 | QA & Testing Lead | Design test cases and compile comprehensive system testing documentation (*Testing document*) |
+| **Trần Văn Bảo Duy** | 089207006909 | Deliverables Coordinator | Review, aggregate all project section outputs, and finalize the E5 submission package (*Final file completion*) |
 
 ## Project Structure
 
