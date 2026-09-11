@@ -39,13 +39,13 @@
 
 | ID | Function | Test Steps | Input Data | Expected Result | Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC01** | Login | 1. Run application<br>2. Select '1. Login'<br>3. Enter valid Username and Password<br>4. Press Enter | **Username:** `admin`<br>**Password:** `Admin@123` | User logs in successfully and Admin Main Menu is displayed. | ⏳ PENDING |
-| **TC02** | Login | 1. Run application<br>2. Select '1. Login'<br>3. Enter valid Username and wrong Password<br>4. Press Enter | **Username:** `admin`<br>**Password:** `wrongpass` | Error message *'Incorrect username or password'* appears, user remains on Login screen. | ⏳ PENDING |
-| **TC03** | Login | 1. On Login screen, enter invalid menu option<br>2. Press Enter | **Option:** `abc` or `99` | Error message *'Invalid option'* appears, prompting re-entry without crashing. | ⏳ PENDING |
-| **TC04** | Logout | 1. Log into the system<br>2. Select '0. Logout' from main menu | **Option:** `0` | User session is terminated and returned to Login screen. | ⏳ PENDING |
-| **TC05** | Change Password | 1. Select 'Change Password'<br>2. Enter current password<br>3. Enter valid new password<br>4. Confirm new password | **Current:** `Admin@123`<br>**New:** `Admin@2026`<br>**Confirm:** `Admin@2026` | Password updated successfully and hashed in database. | ⏳ PENDING |
-| **TC06** | Change Password | 1. Select 'Change Password'<br>2. Enter current password<br>3. Enter weak new password (< 8 chars) | **Current:** `Admin@123`<br>**New:** `pass123`<br>**Confirm:** `pass123` | Error message requires password to have at least 8 characters, 1 uppercase, 1 lowercase, and 1 number. | ⏳ PENDING |
-| **TC07** | Account Management | 1. Select 'Add Account'<br>2. Enter an existing Username | **Username:** `admin`<br>**Role:** `Admin` | System rejects duplicate username and shows error message. | ⏳ PENDING |
+| **TC01** | Login | 1. Run application<br>2. Select '1. Login'<br>3. Enter valid Username and Password<br>4. Press Enter | **Username:** `admin`<br>**Password:** `Admin@123` | User logs in successfully and Admin Main Menu is displayed. | ✅ Passed |
+| **TC02** | Login | 1. Run application<br>2. Select '1. Login'<br>3. Enter valid Username and wrong Password<br>4. Press Enter | **Username:** `admin`<br>**Password:** `wrongpass` | Error message *'Incorrect username or password'* appears, user remains on Login screen. | ✅ Passed |
+| **TC03** | Login | 1. On Login screen, enter invalid menu option<br>2. Press Enter | **Option:** `abc` or `99` | Error message *'Invalid option'* appears, prompting re-entry without crashing. | ✅ Passed |
+| **TC04** | Logout | 1. Log into the system<br>2. Select '0. Logout' from main menu | **Option:** `0` | User session is terminated and returned to Login screen. | ✅ Passed |
+| **TC05** | Change Password | 1. Select 'Change Password'<br>2. Enter current password<br>3. Enter valid new password<br>4. Confirm new password | **Current:** `Admin@123`<br>**New:** `Admin@2026`<br>**Confirm:** `Admin@2026` | Password updated successfully and hashed in database. | ✅ Passed |
+| **TC06** | Change Password | 1. Select 'Change Password'<br>2. Enter current password<br>3. Enter weak new password (< 8 chars) | **Current:** `Admin@123`<br>**New:** `pass123`<br>**Confirm:** `pass123` | Error message requires password to have at least 8 characters, 1 uppercase, 1 lowercase, and 1 number. | ✅ Passed |
+| **TC07** | Account Management | 1. Select 'Add Account'<br>2. Enter an existing Username | **Username:** `admin`<br>**Role:** `Admin` | System rejects duplicate username and shows error message. | ❌ Failed |
 
 ---
 
@@ -53,15 +53,15 @@
 
 | ID | Function | Test Steps | Input Data | Expected Result | Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC08** | View List | 1. Select 'Student Management'<br>2. Select 'View Student List' | **Option:** `1` | Displays formatted list of all students on console. | ⏳ PENDING |
-| **TC09** | Add Student | 1. Select 'Add Student'<br>2. Enter valid student details<br>3. Confirm entry | **ID:** `ST000001`<br>**Name:** `Nguyen Van A`<br>**Email:** `ana@school.edu.vn`<br>**Phone:** `0901234567`<br>**Class:** `SE101` | Message *'Student added successfully'* displayed, record inserted into MySQL Database. | ⏳ PENDING |
-| **TC10** | Add Student | 1. Select 'Add Student'<br>2. Enter invalid Student ID format | **ID:** `ST123`<br>**Name:** `Nguyen Van A` | System rejects input and displays format requirement error (*'ST'* + 6 digits). | ⏳ PENDING |
-| **TC11** | Add Student | 1. Select 'Add Student'<br>2. Enter Name with numeric characters | **ID:** `ST000002`<br>**Name:** `Nguyen Van A 123` | Error message *'Full name must not contain numeric characters'* appears. | ⏳ PENDING |
-| **TC12** | Add Student | 1. Select 'Add Student'<br>2. Enter Phone number with invalid length | **Phone:** `09012345` (8 digits) | System prompts error requiring phone number to be exactly 10 digits. | ⏳ PENDING |
-| **TC13** | Edit Student | 1. Select 'Update Student'<br>2. Enter Student ID<br>3. Enter new Phone and Email | **ID:** `ST000001`<br>**Phone:** `0987654321`<br>**Email:** `newemail@school.edu.vn` | Student record is updated in database without changing Student ID. | ⏳ PENDING |
-| **TC14** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'N' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `N` | Operation cancelled, student record remains in database. | ⏳ PENDING |
-| **TC15** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'Y' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `Y` | Student deleted successfully, record removed from database. | ⏳ PENDING |
-| **TC16** | Search Student | 1. Select 'Search Student'<br>2. Enter search keyword (Name) | **Keyword:** `Nguyen` | Displays all students whose full name contains 'Nguyen'. | ⏳ PENDING |
+| **TC08** | View List | 1. Select 'Student Management'<br>2. Select 'View Student List' | **Option:** `1` | Displays formatted list of all students on console. | ✅ Passed |
+| **TC09** | Add Student | 1. Select 'Add Student'<br>2. Enter valid student details<br>3. Confirm entry | **ID:** `ST000001`<br>**Name:** `Nguyen Van A`<br>**Email:** `ana@school.edu.vn`<br>**Phone:** `0901234567`<br>**Class:** `SE101` | Message *'Student added successfully'* displayed, record inserted into MySQL Database. | ✅ Passed |
+| **TC10** | Add Student | 1. Select 'Add Student'<br>2. Enter invalid Student ID format | **ID:** `ST123`<br>**Name:** `Nguyen Van A` | System rejects input and displays format requirement error (*'ST'* + 6 digits). | ✅ Passed |
+| **TC11** | Add Student | 1. Select 'Add Student'<br>2. Enter Name with numeric characters | **ID:** `ST000002`<br>**Name:** `Nguyen Van A 123` | Error message *'Full name must not contain numeric characters'* appears. | ✅ Passed |
+| **TC12** | Add Student | 1. Select 'Add Student'<br>2. Enter Phone number with invalid length | **Phone:** `09012345` (8 digits) | System prompts error requiring phone number to be exactly 10 digits. | ✅ Passed |
+| **TC13** | Edit Student | 1. Select 'Update Student'<br>2. Enter Student ID<br>3. Enter new Phone and Email | **ID:** `ST000001`<br>**Phone:** `0987654321`<br>**Email:** `newemail@school.edu.vn` | Student record is updated in database without changing Student ID. | ✅ Passed |
+| **TC14** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'N' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `N` | Operation cancelled, student record remains in database. | ✅ Passed |
+| **TC15** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'Y' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `Y` | Student deleted successfully, record removed from database. | ✅ Passed |
+| **TC16** | Search Student | 1. Select 'Search Student'<br>2. Enter search keyword (Name) | **Keyword:** `Nguyen` | Displays all students whose full name contains 'Nguyen'. | ❌ Failed |
 
 ---
 
