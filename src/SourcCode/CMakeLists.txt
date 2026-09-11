@@ -13,9 +13,11 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    Student.cpp
+    StudentController.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -25,6 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         User.h
         Student.h
         StudentController.h
+        Student.cpp
+        StudentController.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET StudentManagementGroup06 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

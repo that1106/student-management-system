@@ -13,6 +13,7 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 private slots:
     void onLoginClicked();
     void onAddStudentClicked();
@@ -21,6 +22,8 @@ private slots:
     void onChangePassClicked();
     void onLogoutClicked();
     void onTableItemClicked(int row, int col);
+    void onSearchClicked();
+
 private:
     StudentController controller;
     QStackedWidget *stackedWidget;
@@ -33,8 +36,12 @@ private:
     QWidget *adminWidget;
     QLineEdit *txtId;
     QLineEdit *txtName;
+    QLineEdit *txtEmail;
     QLineEdit *txtPhone;
     QLineEdit *txtClass;
+
+    QLineEdit *txtSearch;
+    QPushButton *btnSearch;
 
     QPushButton *btnAdd;
     QPushButton *btnUpdate;
@@ -46,4 +53,5 @@ private:
     void setupUI();
     void refreshTable();
 };
+
 #endif
