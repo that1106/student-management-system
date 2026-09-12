@@ -2,56 +2,76 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 #include <QLineEdit>
+#include <QComboBox>
 #include <QPushButton>
 #include <QTableWidget>
-#include <QStackedWidget>
+#include <QLabel>
 #include "StudentController.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private:
+    void setupUI();
+    void setupLoginUI();
+    void setupAdminUI();
+    void setupTeacherUI();
+    void setupStudentUI();
+
+    StudentController controller;
+
+    std::string currentUsername;
+
+    QStackedWidget *stackedWidget;
+    QWidget *loginWidget;
+    QWidget *adminWidget;
+    QWidget *teacherWidget;
+    QWidget *studentWidget;
+
+    // Login widgets
+    QLineEdit *txtUser, *txtPass;
+    QPushButton *btnLogin;
+
+    // Admin widgets
+    QLineEdit *txtId, *txtName, *txtEmail, *txtPhone, *txtClass, *txtSearch, *txtDob, *txtAddress;
+    QComboBox *cmbGender;
+    QPushButton *btnAdd, *btnUpdate, *btnDelete, *btnSearch, *btnLogoutAdmin, *btnChangePassAdmin;
+    QTableWidget *adminTable;
+
+    // Teacher widgets
+    QTableWidget *teacherTable;
+    QLineEdit *txtTeacherScore;
+    QLabel *lblTeacherSelection;
+    QPushButton *btnSaveGrade, *btnLogoutTeacher, *btnChangePassTeacher;
+    int selectedEnrollmentId = -1;
+
+    // Student widgets
+    QLabel *lblStudentInfo, *lblGPA;
+    QTableWidget *studentTable;
+    QPushButton *btnLogoutStudent, *btnChangePassStudent;
+
 private slots:
     void onLoginClicked();
+    void onLogoutClicked();
+    void onSearchClicked();
     void onAddStudentClicked();
     void onUpdateStudentClicked();
     void onDeleteStudentClicked();
-    void onChangePassClicked();
-    void onLogoutClicked();
-    void onTableItemClicked(int row, int col);
-    void onSearchClicked();
+    void onTableClicked(int row, int col);
 
-private:
-    StudentController controller;
-    QStackedWidget *stackedWidget;
+    void refreshTeacherView();
+    void onTeacherRowClicked(int row, int col);
+    void onSaveGradeClicked();
 
-    QWidget *loginWidget;
-    QLineEdit *txtUser;
-    QLineEdit *txtPass;
-    QPushButton *btnLogin;
+    void refreshStudentView();
 
-    QWidget *adminWidget;
-    QLineEdit *txtId;
-    QLineEdit *txtName;
-    QLineEdit *txtEmail;
-    QLineEdit *txtPhone;
-    QLineEdit *txtClass;
-
-    QLineEdit *txtSearch;
-    QPushButton *btnSearch;
-
-    QPushButton *btnAdd;
-    QPushButton *btnUpdate;
-    QPushButton *btnDelete;
-    QPushButton *btnChangePass;
-    QPushButton *btnLogout;
-    QTableWidget *table;
-
-    void setupUI();
-    void refreshTable();
+    void onChangePasswordClicked();
 };
 
-#endif
+#endif // MAINWINDOW_H
