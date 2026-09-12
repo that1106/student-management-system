@@ -91,8 +91,8 @@
 
 | ID | Function | Test Steps | Input Data | Expected Result | Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC25** | Performance Testing | 1. Perform search query on student records database | **Keyword:** `Nguyen` | Query results displayed on console within 2 seconds. | ⏳ PENDING |
-| **TC26** | Security Testing | 1. On Login screen, input SQL injection string into username field | **Username:** `' OR '1'='1`<br>**Password:** `' OR '1'='1` | System safely handles input with parameterized query, access denied. | ⏳ PENDING |
+| **TC25** | Performance Testing | 1. Perform search query on student records database | **Keyword:** `Nguyen` | Query results displayed on console within 2 seconds. | ✅ Passed |
+| **TC26** | Security Testing | 1. On Login screen, input SQL injection string into username field | **Username:** `' OR '1'='1`<br>**Password:** `' OR '1'='1` | System safely handles input with parameterized query, access denied. | ✅ Passed |
 
 ---
 
