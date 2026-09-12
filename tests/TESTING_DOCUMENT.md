@@ -19,9 +19,9 @@
 | Metric | Details | Percentage | Status |
 | :--- | :---: | :---: | :---: |
 | **Total Test Cases** | **26** | 100% | 📋 Total |
-| **Passed Cases** | **0** | 0% | ✅ Passed |
+| **Passed Cases** | **16** | 60% | ✅ Passed |
 | **Failed Cases** | **0** | 0% | ❌ Failed |
-| **Pending / Not Run** | **26** | 100% | ⏳ Pending |
+| **Pending / Not Run** | **10** | 40% | ⏳ Pending |
 | **Execution Status** | **Ready for Testing** | -- | 🟡 In Progress |
 
 ---
@@ -61,7 +61,7 @@
 | **TC13** | Edit Student | 1. Select 'Update Student'<br>2. Enter Student ID<br>3. Enter new Phone and Email | **ID:** `ST000001`<br>**Phone:** `0987654321`<br>**Email:** `newemail@school.edu.vn` | Student record is updated in database without changing Student ID. | ✅ Passed |
 | **TC14** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'N' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `N` | Operation cancelled, student record remains in database. | ✅ Passed |
 | **TC15** | Delete Student | 1. Select 'Delete Student'<br>2. Enter Student ID<br>3. Select 'Y' at confirmation prompt | **ID:** `ST000001`<br>**Confirm:** `Y` | Student deleted successfully, record removed from database. | ✅ Passed |
-| **TC16** | Search Student | 1. Select 'Search Student'<br>2. Enter search keyword (Name) | **Keyword:** `Nguyen` | Displays all students whose full name contains 'Nguyen'. | ❌ Failed |
+| **TC16** | Search Student | 1. Select 'Search Student'<br>2. Enter search keyword (Name) | **Keyword:** `Nguyen` | Displays all students whose full name contains 'Nguyen'. | ✅ Passed |
 
 ---
 
