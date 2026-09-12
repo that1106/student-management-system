@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Language-C%2B%2B17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++" />
   <img src="https://img.shields.io/badge/Database-MySQL_8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-  <img src="https://img.shields.io/badge/Testing_Status-Pending_Execution-yellow?style=for-the-badge&logo=github" alt="Status" />
+  <img src="https://img.shields.io/badge/Testing_Status-In_Progress-yellow?style=for-the-badge&logo=github" alt="Status" />
 </p>
 
 > [!NOTE]
@@ -19,10 +19,10 @@
 | Metric | Details | Percentage | Status |
 | :--- | :---: | :---: | :---: |
 | **Total Test Cases** | **26** | 100% | 📋 Total |
-| **Passed Cases** | **16** | 60% | ✅ Passed |
+| **Passed Cases** | **18** | 69% | ✅ Passed |
 | **Failed Cases** | **0** | 0% | ❌ Failed |
-| **Pending / Not Run** | **10** | 40% | ⏳ Pending |
-| **Execution Status** | **Ready for Testing** | -- | 🟡 In Progress |
+| **Pending / Not Run** | **8** | 31% | ⏳ Pending |
+| **Execution Status** | **Waiting for Updates** | -- | 🟡 In Progress |
 
 ---
 
@@ -97,5 +97,4 @@
 ---
 
 > [!TIP]
-> **Note for Testers:**
-> * Update `⏳ PENDING` to `✅ PASSED` or `❌ FAILED` as you execute each test case during testing phase.
+> **Testing Status:** Modules 1, 2, and 5 are fully verified. Waiting for Coder to finish UI and logic updates for Module 3 and 4 before continuing with tests TC17 - TC24.
