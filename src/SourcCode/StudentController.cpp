@@ -1,4 +1,5 @@
 #include "StudentController.h"
+#include "Users.h"
 #include <regex>
 #include <algorithm>
 #include <cctype>
@@ -6,8 +7,6 @@
 #include <QSqlError>
 #include <QCryptographicHash>
 #include <QDate>
-
-
 
 StudentController::StudentController() {
     if (QSqlDatabase::isDriverAvailable("QMYSQL")) {
@@ -47,10 +46,22 @@ StudentController::StudentController() {
     query.exec("CREATE TABLE IF NOT EXISTS teachers ("
                "username VARCHAR(50) PRIMARY KEY, fullName VARCHAR(100), email VARCHAR(100))");
 
-
     query.exec("ALTER TABLE students ADD COLUMN dateOfBirth VARCHAR(20)");
     query.exec("ALTER TABLE students ADD COLUMN gender VARCHAR(10)");
     query.exec("ALTER TABLE students ADD COLUMN address VARCHAR(255)");
+
+    bool isSqliteIdx = (db.driverName() == "QSQLITE");
+    if (isSqliteIdx) {
+        query.exec("CREATE INDEX IF NOT EXISTS idx_students_name ON students(name)");
+        query.exec("CREATE INDEX IF NOT EXISTS idx_students_email ON students(email)");
+        query.exec("CREATE INDEX IF NOT EXISTS idx_students_phone ON students(phone)");
+        query.exec("CREATE INDEX IF NOT EXISTS idx_students_class ON students(classCode)");
+    } else {
+        query.exec("CREATE INDEX idx_students_name ON students(name)");
+        query.exec("CREATE INDEX idx_students_email ON students(email)");
+        query.exec("CREATE INDEX idx_students_phone ON students(phone)");
+        query.exec("CREATE INDEX idx_students_class ON students(classCode)");
+    }
 
     seedDemoData();
 }
@@ -82,7 +93,6 @@ void StudentController::seedDemoData() {
         ins.exec();
     };
 
-
     seedAccount("admin", "Admin@123", "admin");
     seedAccount("teacher01", "Teacher@123", "teacher");
     seedAccount("ST000002", "Student@123", "student");
@@ -90,25 +100,25 @@ void StudentController::seedDemoData() {
     QSqlQuery q;
 
     if (isSqlite) q.exec("INSERT OR IGNORE INTO teachers (username, fullName, email) VALUES "
-               "('teacher01', 'Nguyen Van A', '[email protected]')");
+               "('teacher01', 'Nguyen Van A', 'teacher01@gmail.com')");
     else q.exec("INSERT IGNORE INTO teachers (username, fullName, email) VALUES "
-               "('teacher01', 'Nguyen Van A', '[email protected]')");
+               "('teacher01', 'Nguyen Van A', 'teacher01@gmail.com')");
 
     if (isSqlite) q.exec("INSERT OR IGNORE INTO classes (classCode, className) VALUES "
-               "('ST101', 'Lop Ky Thuat Phan Mem 101')");
+               "('ST101', 'Software Engineering 101')");
     else q.exec("INSERT IGNORE INTO classes (classCode, className) VALUES "
-               "('ST101', 'Lop Ky Thuat Phan Mem 101')");
+               "('ST101', 'Software Engineering 101')");
 
     if (isSqlite) {
         q.exec("INSERT OR IGNORE INTO subjects (subjectCode, subjectName, credits) VALUES "
-               "('MATH101', 'Toan Cao Cap', 3)");
+               "('MATH101', 'Advanced Mathematics', 3)");
         q.exec("INSERT OR IGNORE INTO subjects (subjectCode, subjectName, credits) VALUES "
-               "('PRO101', 'Lap Trinh Huong Doi Tuong', 4)");
+               "('PRO101', 'Object Oriented Programming', 4)");
     } else {
         q.exec("INSERT IGNORE INTO subjects (subjectCode, subjectName, credits) VALUES "
-               "('MATH101', 'Toan Cao Cap', 3)");
+               "('MATH101', 'Advanced Mathematics', 3)");
         q.exec("INSERT IGNORE INTO subjects (subjectCode, subjectName, credits) VALUES "
-               "('PRO101', 'Lap Trinh Huong Doi Tuong', 4)");
+               "('PRO101', 'Object Oriented Programming', 4)");
     }
 
     QSqlQuery checkStu;
@@ -121,12 +131,12 @@ void StudentController::seedDemoData() {
                     "VALUES (:id, :name, :email, :phone, :class, :dob, :gender, :address)");
         ins.bindValue(":id", "ST000002");
         ins.bindValue(":name", "Tran Van Bao Duy");
-        ins.bindValue(":email", "[email protected]");
+        ins.bindValue(":email", "student@gmail.com");
         ins.bindValue(":phone", "0900000002");
         ins.bindValue(":class", "ST101");
         ins.bindValue(":dob", "2004-05-10");
-        ins.bindValue(":gender", "Nam");
-        ins.bindValue(":address", "TP. Ho Chi Minh");
+        ins.bindValue(":gender", "Male");
+        ins.bindValue(":address", "Ho Chi Minh City");
         ins.exec();
     }
 
@@ -189,7 +199,6 @@ int StudentController::login(const std::string& username, const std::string& pas
 
     bool matches = (stored == inputHash);
 
-
     if (!matches && stored == QString::fromStdString(password)) {
         matches = true;
         QSqlQuery upgrade;
@@ -225,19 +234,19 @@ bool StudentController::changePassword(const std::string& username, const std::s
     q.prepare("SELECT password FROM accounts WHERE username = :u");
     q.bindValue(":u", QString::fromStdString(username));
     q.exec();
-    if (!q.next()) { errorMsg = "Khong tim thay tai khoan!"; return false; }
+    if (!q.next()) { errorMsg = "Account not found!"; return false; }
 
     if (q.value("password").toString() != hashPassword(oldPass)) {
-        errorMsg = "Mat khau hien tai khong dung!"; return false;
+        errorMsg = "Current password is incorrect!"; return false;
     }
-    if (newPass != confPass) { errorMsg = "Mat khau xac nhan khong khop!"; return false; }
-    if (newPass == oldPass) { errorMsg = "Mat khau moi phai khac mat khau hien tai!"; return false; }
+    if (newPass != confPass) { errorMsg = "Password confirmation does not match!"; return false; }
+    if (newPass == oldPass) { errorMsg = "New password must be different from current password!"; return false; }
 
     bool hasUpper = std::any_of(newPass.begin(), newPass.end(), [](unsigned char c){ return std::isupper(c); });
     bool hasLower = std::any_of(newPass.begin(), newPass.end(), [](unsigned char c){ return std::islower(c); });
     bool hasDigit = std::any_of(newPass.begin(), newPass.end(), [](unsigned char c){ return std::isdigit(c); });
     if (newPass.length() < 8 || !hasUpper || !hasLower || !hasDigit) {
-        errorMsg = "Mat khau moi phai co it nhat 8 ky tu, gom chu hoa, chu thuong va chu so!";
+        errorMsg = "New password must have at least 8 characters, including uppercase, lowercase, and numbers!";
         return false;
     }
 
@@ -245,11 +254,9 @@ bool StudentController::changePassword(const std::string& username, const std::s
     upd.prepare("UPDATE accounts SET password = :p WHERE username = :u");
     upd.bindValue(":p", hashPassword(newPass));
     upd.bindValue(":u", QString::fromStdString(username));
-    if (!upd.exec()) { errorMsg = "Loi Database: " + upd.lastError().text().toStdString(); return false; }
+    if (!upd.exec()) { errorMsg = "Database Error: " + upd.lastError().text().toStdString(); return false; }
     return true;
 }
-
-
 
 bool StudentController::addStudent(const std::string& id, const std::string& name, const std::string& email,
                                    const std::string& phone, const std::string& classCode,
@@ -257,44 +264,44 @@ bool StudentController::addStudent(const std::string& id, const std::string& nam
                                    const std::string& address, std::string& errorMsg) {
     if (id.empty() || name.empty() || email.empty() || phone.empty() || classCode.empty() ||
         dateOfBirth.empty() || gender.empty() || address.empty()) {
-        errorMsg = "Vui long nhap day du thong tin!"; return false;
+        errorMsg = "Please enter all information!"; return false;
     }
 
     std::regex idRegex("^ST\\d{6}$");
     if (!std::regex_match(id, idRegex)) {
-        errorMsg = "Ma SV khong hop le! (Vi du: ST000001)."; return false;
+        errorMsg = "Invalid Student ID! (Example: ST000001)."; return false;
     }
     if (std::any_of(name.begin(), name.end(), ::isdigit)) {
-        errorMsg = "Ho va ten khong duoc chua chu so!"; return false;
+        errorMsg = "Full name must not contain numbers!"; return false;
     }
     std::regex phoneRegex("^\\d{10}$");
     if (!std::regex_match(phone, phoneRegex)) {
-        errorMsg = "So dien thoai phai bao gom dung 10 chu so!"; return false;
+        errorMsg = "Phone number must contain exactly 10 digits!"; return false;
     }
     std::regex emailRegex(R"(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$)");
     if (!std::regex_match(email, emailRegex)) {
-        errorMsg = "Dinh dang Email khong hop le!"; return false;
+        errorMsg = "Invalid Email format!"; return false;
     }
 
     QDate dob = QDate::fromString(QString::fromStdString(dateOfBirth), "yyyy-MM-dd");
-    if (!dob.isValid()) { errorMsg = "Ngay sinh khong hop le! (Dinh dang: YYYY-MM-DD)"; return false; }
-    if (dob > QDate::currentDate()) { errorMsg = "Ngay sinh khong duoc lon hon ngay hien tai!"; return false; }
+    if (!dob.isValid()) { errorMsg = "Invalid date of birth! (Format: YYYY-MM-DD)"; return false; }
+    if (dob > QDate::currentDate()) { errorMsg = "Date of birth cannot be in the future!"; return false; }
 
     if (!classExists(classCode)) {
-        errorMsg = "Ma lop khong ton tai! Vui long tao lop truoc trong Quan ly Lop."; return false;
+        errorMsg = "Class Code does not exist! Please create class first in Class Management."; return false;
     }
 
     QSqlQuery checkQuery;
     checkQuery.prepare("SELECT id FROM students WHERE id = :id");
     checkQuery.bindValue(":id", QString::fromStdString(id));
     checkQuery.exec();
-    if (checkQuery.next()) { errorMsg = "Ma sinh vien da ton tai!"; return false; }
+    if (checkQuery.next()) { errorMsg = "Student ID already exists!"; return false; }
 
     QSqlQuery emailCheck;
     emailCheck.prepare("SELECT id FROM students WHERE email = :email");
     emailCheck.bindValue(":email", QString::fromStdString(email));
     emailCheck.exec();
-    if (emailCheck.next()) { errorMsg = "Email nay da duoc su dung boi sinh vien khac!"; return false; }
+    if (emailCheck.next()) { errorMsg = "This email is already in use by another student!"; return false; }
 
     QSqlQuery query;
     query.prepare("INSERT INTO students (id, name, email, phone, classCode, dateOfBirth, gender, address) "
@@ -309,7 +316,7 @@ bool StudentController::addStudent(const std::string& id, const std::string& nam
     query.bindValue(":address", QString::fromStdString(address));
 
     if (!query.exec()) {
-        errorMsg = "Loi Database: " + query.lastError().text().toStdString();
+        errorMsg = "Database Error: " + query.lastError().text().toStdString();
         return false;
     }
     return true;
@@ -321,24 +328,24 @@ bool StudentController::updateStudent(const std::string& id, const std::string& 
                                       const std::string& address, std::string& errorMsg) {
     if (name.empty() || email.empty() || phone.empty() || classCode.empty() ||
         dateOfBirth.empty() || gender.empty() || address.empty()) {
-        errorMsg = "Vui long nhap day du thong tin!"; return false;
+        errorMsg = "Please enter all information!"; return false;
     }
     if (std::any_of(name.begin(), name.end(), ::isdigit)) {
-        errorMsg = "Ho va ten khong duoc chua chu so!"; return false;
+        errorMsg = "Full name must not contain numbers!"; return false;
     }
     std::regex phoneRegex("^\\d{10}$");
     if (!std::regex_match(phone, phoneRegex)) {
-        errorMsg = "So dien thoai phai bao gom dung 10 chu so!"; return false;
+        errorMsg = "Phone number must contain exactly 10 digits!"; return false;
     }
     std::regex emailRegex(R"(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$)");
     if (!std::regex_match(email, emailRegex)) {
-        errorMsg = "Dinh dang Email khong hop le!"; return false;
+        errorMsg = "Invalid Email format!"; return false;
     }
     QDate dob = QDate::fromString(QString::fromStdString(dateOfBirth), "yyyy-MM-dd");
-    if (!dob.isValid()) { errorMsg = "Ngay sinh khong hop le! (Dinh dang: YYYY-MM-DD)"; return false; }
-    if (dob > QDate::currentDate()) { errorMsg = "Ngay sinh khong duoc lon hon ngay hien tai!"; return false; }
+    if (!dob.isValid()) { errorMsg = "Invalid date of birth! (Format: YYYY-MM-DD)"; return false; }
+    if (dob > QDate::currentDate()) { errorMsg = "Date of birth cannot be in the future!"; return false; }
     if (!classExists(classCode)) {
-        errorMsg = "Ma lop khong ton tai! Vui long tao lop truoc trong Quan ly Lop."; return false;
+        errorMsg = "Class Code does not exist! Please create class first in Class Management."; return false;
     }
 
     QSqlQuery query;
@@ -355,7 +362,7 @@ bool StudentController::updateStudent(const std::string& id, const std::string& 
     query.bindValue(":id", QString::fromStdString(id));
 
     if (!query.exec() || query.numRowsAffected() == 0) {
-        errorMsg = "Loi Database hoac khong tim thay sinh vien!";
+        errorMsg = "Database Error or student not found!";
         return false;
     }
     return true;
@@ -387,7 +394,6 @@ std::vector<Student> StudentController::getAllStudents() {
 }
 
 std::vector<Student> StudentController::searchStudents(const std::string& keyword) {
-
     std::vector<Student> list;
     QString kw = QString::fromStdString(keyword);
     QString like = "%" + kw + "%";
@@ -414,10 +420,9 @@ std::vector<Student> StudentController::searchStudents(const std::string& keywor
     return list;
 }
 
-
 bool StudentController::addClass(const std::string& classCode, const std::string& className, std::string& errorMsg) {
-    if (classCode.empty() || className.empty()) { errorMsg = "Vui long nhap du thong tin lop!"; return false; }
-    if (classExists(classCode)) { errorMsg = "Ma lop da ton tai!"; return false; }
+    if (classCode.empty() || className.empty()) { errorMsg = "Please enter all class information!"; return false; }
+    if (classExists(classCode)) { errorMsg = "Class Code already exists"; return false; }
 
     QSqlQuery query;
     query.prepare("INSERT INTO classes (classCode, className) VALUES (:code, :name)");
@@ -427,14 +432,14 @@ bool StudentController::addClass(const std::string& classCode, const std::string
 }
 
 bool StudentController::addSubject(const std::string& subjectCode, const std::string& subjectName, int credits, std::string& errorMsg) {
-    if (subjectCode.empty() || subjectName.empty()) { errorMsg = "Vui long nhap du thong tin mon hoc!"; return false; }
-    if (credits <= 0) { errorMsg = "So tin chi phai lon hon 0!"; return false; }
+    if (subjectCode.empty() || subjectName.empty()) { errorMsg = "Please enter all subject information!"; return false; }
+    if (credits <= 0) { errorMsg = "Credits must be greater than 0"; return false; }
 
     QSqlQuery checkQuery;
     checkQuery.prepare("SELECT subjectCode FROM subjects WHERE subjectCode = :code");
     checkQuery.bindValue(":code", QString::fromStdString(subjectCode));
     checkQuery.exec();
-    if (checkQuery.next()) { errorMsg = "Ma mon hoc da ton tai!"; return false; }
+    if (checkQuery.next()) { errorMsg = "Subject Code already exists!"; return false; }
 
     QSqlQuery query;
     query.prepare("INSERT INTO subjects (subjectCode, subjectName, credits) VALUES (:code, :name, :credits)");
@@ -449,20 +454,20 @@ bool StudentController::enrollStudent(const std::string& studentId, const std::s
     studentCheck.prepare("SELECT id FROM students WHERE id = :id");
     studentCheck.bindValue(":id", QString::fromStdString(studentId));
     studentCheck.exec();
-    if (!studentCheck.next()) { errorMsg = "Khong tim thay sinh vien!"; return false; }
+    if (!studentCheck.next()) { errorMsg = "Student not found!"; return false; }
 
     QSqlQuery subjectCheck;
     subjectCheck.prepare("SELECT subjectCode FROM subjects WHERE subjectCode = :code");
     subjectCheck.bindValue(":code", QString::fromStdString(subjectCode));
     subjectCheck.exec();
-    if (!subjectCheck.next()) { errorMsg = "Khong tim thay mon hoc!"; return false; }
+    if (!subjectCheck.next()) { errorMsg = "Subject not found!"; return false; }
 
     QSqlQuery checkQuery;
     checkQuery.prepare("SELECT id FROM enrollments WHERE studentId = :stuId AND subjectCode = :subCode");
     checkQuery.bindValue(":stuId", QString::fromStdString(studentId));
     checkQuery.bindValue(":subCode", QString::fromStdString(subjectCode));
     checkQuery.exec();
-    if (checkQuery.next()) { errorMsg = "Sinh vien nay da dang ky mon hoc nay roi!"; return false; }
+    if (checkQuery.next()) { errorMsg = "Duplicate enrollment is not allowed"; return false; }
 
     QSqlQuery query;
     query.prepare("INSERT INTO enrollments (studentId, subjectCode) VALUES (:stuId, :subCode)");
@@ -471,10 +476,84 @@ bool StudentController::enrollStudent(const std::string& studentId, const std::s
     return query.exec();
 }
 
+bool StudentController::dropEnrollment(int enrollmentId, std::string& errorMsg) {
+    QSqlQuery check;
+    check.prepare("SELECT score FROM enrollments WHERE id = :id");
+    check.bindValue(":id", enrollmentId);
+    check.exec();
+    if (!check.next()) { errorMsg = "Enrollment not found!"; return false; }
 
+    double score = check.value("score").toDouble();
+    if (score >= 0) { errorMsg = "Cannot drop a graded subject!"; return false; }
+
+    QSqlQuery del;
+    del.prepare("DELETE FROM enrollments WHERE id = :id");
+    del.bindValue(":id", enrollmentId);
+    if (!del.exec()) { errorMsg = "Database Error: " + del.lastError().text().toStdString(); return false; }
+    return true;
+}
+
+std::vector<ClassInfo> StudentController::getAllClasses() {
+    std::vector<ClassInfo> list;
+    QSqlQuery q("SELECT classCode, className FROM classes ORDER BY classCode");
+    while (q.next()) {
+        list.push_back({ q.value("classCode").toString().toStdString(),
+                        q.value("className").toString().toStdString() });
+    }
+    return list;
+}
+
+std::vector<SubjectInfo> StudentController::getAllSubjects() {
+    std::vector<SubjectInfo> list;
+    QSqlQuery q("SELECT subjectCode, subjectName, credits FROM subjects ORDER BY subjectCode");
+    while (q.next()) {
+        list.push_back({ q.value("subjectCode").toString().toStdString(),
+                        q.value("subjectName").toString().toStdString(),
+                        q.value("credits").toInt() });
+    }
+    return list;
+}
+
+std::vector<SubjectInfo> StudentController::getAvailableSubjects(const std::string& studentId) {
+    std::vector<SubjectInfo> list;
+    QSqlQuery q;
+    q.prepare(
+        "SELECT subjectCode, subjectName, credits FROM subjects "
+        "WHERE subjectCode NOT IN (SELECT subjectCode FROM enrollments WHERE studentId = :id) "
+        "ORDER BY subjectCode");
+    q.bindValue(":id", QString::fromStdString(studentId));
+    q.exec();
+    while (q.next()) {
+        list.push_back({ q.value("subjectCode").toString().toStdString(),
+                        q.value("subjectName").toString().toStdString(),
+                        q.value("credits").toInt() });
+    }
+    return list;
+}
+
+std::vector<EnrollmentInfo> StudentController::getAllEnrollments() {
+    std::vector<EnrollmentInfo> list;
+    QSqlQuery q(
+        "SELECT e.id, e.studentId, s.name AS studentName, e.subjectCode, "
+        "       sub.subjectName, e.score "
+        "FROM enrollments e "
+        "JOIN students s ON s.id = e.studentId "
+        "JOIN subjects sub ON sub.subjectCode = e.subjectCode "
+        "ORDER BY e.id DESC");
+    while (q.next()) {
+        EnrollmentInfo e;
+        e.id = q.value("id").toInt();
+        e.studentId = q.value("studentId").toString().toStdString();
+        e.studentName = q.value("studentName").toString().toStdString();
+        e.subjectCode = q.value("subjectCode").toString().toStdString();
+        e.subjectName = q.value("subjectName").toString().toStdString();
+        e.score = q.value("score").toDouble();
+        list.push_back(e);
+    }
+    return list;
+}
 
 std::vector<GradeRow> StudentController::getTeacherGradebook(const std::string& teacherUsername) {
-
     std::vector<GradeRow> list;
     QSqlQuery q;
     q.prepare(
@@ -506,10 +585,10 @@ std::vector<GradeRow> StudentController::getTeacherGradebook(const std::string& 
 
 bool StudentController::updateGrade(int enrollmentId, double score, std::string& errorMsg) {
     if (enrollmentId < 0) {
-        errorMsg = "Sinh vien chua dang ky mon hoc nay, khong the cham diem!"; return false;
+        errorMsg = "Student is not enrolled in this subject, cannot grade!"; return false;
     }
     if (score < 0.0 || score > 10.0) {
-        errorMsg = "Diem so khong hop le! Vui long nhap tu 0.0 den 10.0"; return false;
+        errorMsg = "Invalid score! Please enter between 0.0 and 10.0"; return false;
     }
 
     QSqlQuery query;
@@ -518,7 +597,7 @@ bool StudentController::updateGrade(int enrollmentId, double score, std::string&
     query.bindValue(":id", enrollmentId);
 
     if (!query.exec() || query.numRowsAffected() == 0) {
-        errorMsg = "Khong tim thay du lieu dang ky nay!"; return false;
+        errorMsg = "Enrollment not found!"; return false;
     }
     return true;
 }
@@ -526,7 +605,7 @@ bool StudentController::updateGrade(int enrollmentId, double score, std::string&
 bool StudentController::assignTeacher(const std::string& teacherName, const std::string& classCode,
                                       const std::string& subjectCode, std::string& errorMsg) {
     if (teacherName.empty() || classCode.empty() || subjectCode.empty()) {
-        errorMsg = "Vui long nhap du thong tin phan cong!"; return false;
+        errorMsg = "Please enter all assignment information!"; return false;
     }
     QSqlQuery checkQuery;
     checkQuery.prepare("SELECT id FROM assignments WHERE teacherName = :t AND classCode = :c AND subjectCode = :s");
@@ -534,7 +613,7 @@ bool StudentController::assignTeacher(const std::string& teacherName, const std:
     checkQuery.bindValue(":c", QString::fromStdString(classCode));
     checkQuery.bindValue(":s", QString::fromStdString(subjectCode));
     checkQuery.exec();
-    if (checkQuery.next()) { errorMsg = "Phan cong nay da ton tai!"; return false; }
+    if (checkQuery.next()) { errorMsg = "This assignment already exists!"; return false; }
 
     QSqlQuery query;
     query.prepare("INSERT INTO assignments (teacherName, classCode, subjectCode) VALUES (:teacher, :class, :subject)");
@@ -544,7 +623,56 @@ bool StudentController::assignTeacher(const std::string& teacherName, const std:
     return query.exec();
 }
 
+std::vector<AssignmentInfo> StudentController::getAllAssignments() {
+    std::vector<AssignmentInfo> list;
+    QSqlQuery q("SELECT id, teacherName, classCode, subjectCode FROM assignments ORDER BY id DESC");
+    while (q.next()) {
+        AssignmentInfo a;
+        a.id = q.value("id").toInt();
+        a.teacherName = q.value("teacherName").toString().toStdString();
+        a.classCode = q.value("classCode").toString().toStdString();
+        a.subjectCode = q.value("subjectCode").toString().toStdString();
+        list.push_back(a);
+    }
+    return list;
+}
 
+bool StudentController::addAccount(const std::string& username, const std::string& password,
+                                   const std::string& role, std::string& errorMsg) {
+    if (username.empty() || password.empty() || role.empty()) {
+        errorMsg = "Please enter all account information!"; return false;
+    }
+    if (role != "admin" && role != "teacher" && role != "student") {
+        errorMsg = "Invalid role! (admin / teacher / student)"; return false;
+    }
+    if (password.length() < 8) {
+        errorMsg = "Password must be at least 8 characters!"; return false;
+    }
+
+    QSqlQuery check;
+    check.prepare("SELECT username FROM accounts WHERE username = :u");
+    check.bindValue(":u", QString::fromStdString(username));
+    check.exec();
+    if (check.next()) { errorMsg = "Username already exists!"; return false; }
+
+    QSqlQuery ins;
+    ins.prepare("INSERT INTO accounts (username, password, role) VALUES (:u, :p, :r)");
+    ins.bindValue(":u", QString::fromStdString(username));
+    ins.bindValue(":p", hashPassword(password));
+    ins.bindValue(":r", QString::fromStdString(role));
+    if (!ins.exec()) { errorMsg = "Database Error: " + ins.lastError().text().toStdString(); return false; }
+    return true;
+}
+
+std::vector<std::pair<std::string, std::string>> StudentController::getAllAccounts() {
+    std::vector<std::pair<std::string, std::string>> list;
+    QSqlQuery q("SELECT username, role FROM accounts ORDER BY username");
+    while (q.next()) {
+        list.push_back({ q.value("username").toString().toStdString(),
+                        q.value("role").toString().toStdString() });
+    }
+    return list;
+}
 
 StudentProfile StudentController::getStudentProfile(const std::string& username) {
     StudentProfile p;
@@ -589,10 +717,39 @@ double StudentController::computeGPA(const std::vector<SubjectResult>& results) 
     double totalPoints = 0;
     int totalCredits = 0;
     for (const auto& r : results) {
-        if (r.score < 0) continue; // not graded yet
+        if (r.score < 0) continue;
         totalPoints += r.score * r.credits;
         totalCredits += r.credits;
     }
     if (totalCredits == 0) return -1.0;
     return totalPoints / totalCredits;
+}
+
+std::unique_ptr<User> StudentController::buildSessionUser(int role, const std::string& username) {
+    if (role == 1) {
+        return std::make_unique<Admin>(username, "", username, "");
+    }
+
+    if (role == 2) {
+        QSqlQuery q;
+        q.prepare("SELECT fullName, email FROM teachers WHERE username = :u");
+        q.bindValue(":u", QString::fromStdString(username));
+        q.exec();
+        std::string fullName = username;
+        std::string email;
+        if (q.next()) {
+            fullName = q.value("fullName").toString().toStdString();
+            email = q.value("email").toString().toStdString();
+        }
+        return std::make_unique<Teacher>(username, "", fullName, email);
+    }
+
+    if (role == 3) {
+        StudentProfile p = getStudentProfile(username);
+        return std::make_unique<StudentUser>(username, "",
+                                             p.found ? p.id : username,
+                                             p.found ? p.name : username);
+    }
+
+    return nullptr;
 }

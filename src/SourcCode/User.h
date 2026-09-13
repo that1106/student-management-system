@@ -12,5 +12,7 @@ public:
 
     std::string getUsername() const { return username; }
     bool checkPassword(const std::string& p) const { return password == p; }
+
+    virtual std::string welcomeMessage() const = 0;
 };
 #endif

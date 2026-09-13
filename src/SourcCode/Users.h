@@ -4,8 +4,6 @@
 #include "User.h"
 #include <string>
 
-
-
 enum class Role { Admin, Teacher, Student, Unknown };
 
 class Admin : public User {
@@ -18,6 +16,10 @@ public:
         : User(username, password), fullName(fullName), email(email) {}
 
     Role role() const { return Role::Admin; }
+
+    std::string welcomeMessage() const override {
+        return "Welcome, Admin " + username;
+    }
 };
 
 class Teacher : public User {
@@ -30,6 +32,11 @@ public:
         : User(username, password), fullName(fullName), email(email) {}
 
     Role role() const { return Role::Teacher; }
+
+    std::string welcomeMessage() const override {
+        std::string display = fullName.empty() ? username : fullName;
+        return "Welcome, Teacher " + display;
+    }
 };
 
 class StudentUser : public User {
@@ -42,6 +49,11 @@ public:
         : User(username, password), studentId(studentId), fullName(fullName) {}
 
     Role role() const { return Role::Student; }
+
+    std::string welcomeMessage() const override {
+        std::string display = fullName.empty() ? username : fullName;
+        return "Welcome, Student " + display;
+    }
 };
 
-#endif // USERS_H
+#endif

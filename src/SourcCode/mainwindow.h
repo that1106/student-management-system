@@ -3,12 +3,15 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QTabWidget>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPushButton>
 #include <QTableWidget>
 #include <QLabel>
+#include <memory>
 #include "StudentController.h"
+#include "User.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -27,6 +30,7 @@ private:
     StudentController controller;
 
     std::string currentUsername;
+    std::unique_ptr<User> currentUser;
 
     QStackedWidget *stackedWidget;
     QWidget *loginWidget;
@@ -34,26 +38,47 @@ private:
     QWidget *teacherWidget;
     QWidget *studentWidget;
 
-    // Login widgets
     QLineEdit *txtUser, *txtPass;
     QPushButton *btnLogin;
 
-    // Admin widgets
+    QTabWidget *adminTabs;
+    QLabel *lblWelcomeAdmin;
     QLineEdit *txtId, *txtName, *txtEmail, *txtPhone, *txtClass, *txtSearch, *txtDob, *txtAddress;
     QComboBox *cmbGender;
     QPushButton *btnAdd, *btnUpdate, *btnDelete, *btnSearch, *btnLogoutAdmin, *btnChangePassAdmin;
     QTableWidget *adminTable;
 
-    // Teacher widgets
+    QLineEdit *txtClassCode, *txtClassName;
+    QPushButton *btnAddClass;
+    QTableWidget *classesTable;
+    QLineEdit *txtSubjectCode, *txtSubjectName, *txtCredits;
+    QPushButton *btnAddSubject;
+    QTableWidget *subjectsTable;
+
+    QLineEdit *txtEnrollStudentId, *txtEnrollSubjectCode;
+    QPushButton *btnEnroll;
+    QTableWidget *enrollmentsTable;
+
+    QLineEdit *txtAccUsername, *txtAccPassword;
+    QComboBox *cmbAccRole;
+    QPushButton *btnAddAccount;
+    QTableWidget *accountsTable;
+    QLineEdit *txtAssignTeacher, *txtAssignClass, *txtAssignSubject;
+    QPushButton *btnAssignTeacher;
+    QTableWidget *assignmentsTable;
+
     QTableWidget *teacherTable;
+    QLabel *lblWelcomeTeacher;
     QLineEdit *txtTeacherScore;
     QLabel *lblTeacherSelection;
     QPushButton *btnSaveGrade, *btnLogoutTeacher, *btnChangePassTeacher;
     int selectedEnrollmentId = -1;
 
-    // Student widgets
-    QLabel *lblStudentInfo, *lblGPA;
+    QLabel *lblWelcomeStudent, *lblStudentInfo, *lblGPA;
     QTableWidget *studentTable;
+    QPushButton *btnDropSubject;
+    QTableWidget *availableSubjectsTable;
+    QPushButton *btnRegisterSubject;
     QPushButton *btnLogoutStudent, *btnChangePassStudent;
 
 private slots:
@@ -72,6 +97,22 @@ private slots:
     void refreshStudentView();
 
     void onChangePasswordClicked();
+
+    void refreshClasses();
+    void refreshSubjects();
+    void refreshEnrollments();
+    void refreshAssignments();
+    void refreshAccounts();
+    void refreshAdminAll();
+
+    void onAddClassClicked();
+    void onAddSubjectClicked();
+    void onEnrollClicked();
+    void onAddAccountClicked();
+    void onAssignTeacherClicked();
+
+    void onRegisterSubjectClicked();
+    void onDropSubjectClicked();
 };
 
-#endif // MAINWINDOW_H
+#endif
