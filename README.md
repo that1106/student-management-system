@@ -14,11 +14,11 @@ A group project for developing a system that manages students, classes, courses,
 
 | Member | Student ID | Role | Key Responsibilities |
 | :--- | :---: | :--- | :--- |
-| **Nguyễn Duy Ngọc** | 038205031154 | Lead Developer | Develop, aggregate, and manage application source code (*Source code file*) |
+| **Trần Văn Bảo Duy** | 089207006909 | Lead Developer | Develop, aggregate, and manage application source code (*Source code file*) |
 | **Nguyễn Mạnh Hùng** | 034207000859 | Docker & System Engineer | Build Dockerfile, containerize application, and configure runtime environment (*Docker file*) |
 | **Nguyễn Triều Hải** | 066207014787 | Operations & Tool Manager | Prepare documentation for evidence of tool usage and task assignment (*File containing evidence of tool usage and task assignment*) |
 | **Trần Văn Thật** | 049207011900 | QA & Testing Lead | Design test cases and compile comprehensive system testing documentation (*Testing document*) |
-| **Trần Văn Bảo Duy** | 089207006909 | Deliverables Coordinator | Review, aggregate all project section outputs, and finalize the E5 submission package (*Final file completion*) |
+| **Nguyễn Duy Ngọc** | 038205031154 | Deliverables Coordinator | Review, aggregate all project section outputs, and finalize the E5 submission package (*Final file completion*) |
 
 ## Project Structure
 
