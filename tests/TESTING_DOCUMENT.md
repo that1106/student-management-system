@@ -1,4 +1,4 @@
-# 🧪 SYSTEM TESTING DOCUMENTATION
+<img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/3924579e-2478-452e-84c7-7a1f59d1d5dd" /><img width="1915" height="1078" alt="image" src="https://github.com/user-attachments/assets/685bfab6-39ac-4859-8351-c7deda3d06f7" /># 🧪 SYSTEM TESTING DOCUMENTATION
 
 <p align="center">
   <img src="https://img.shields.io/badge/Language-C%2B%2B17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++" />
@@ -19,9 +19,9 @@
 | Metric | Details | Percentage | Status |
 | :--- | :---: | :---: | :---: |
 | **Total Test Cases** | **26** | 100% | 📋 Total |
-| **Passed Cases** | **18** | 69% | ✅ Passed |
+| **Passed Cases** | **26** | 100% | ✅ Passed |
 | **Failed Cases** | **0** | 0% | ❌ Failed |
-| **Pending / Not Run** | **8** | 31% | ⏳ Pending |
+| **Pending / Not Run** | **0** | 0% | ⏳ Pending |
 | **Execution Status** | **Waiting for Updates** | -- | 🟡 In Progress |
 
 ---
@@ -69,11 +69,11 @@
 
 | ID | Function | Test Steps | Input Data | Expected Result | Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC17** | Class Management | 1. Select 'Add Class'<br>2. Enter duplicate Class Code | **Class Code:** `SE101` | Error message *'Class Code already exists'* displayed. | ⏳ PENDING |
-| **TC18** | Subject Management | 1. Select 'Add Subject'<br>2. Enter valid Subject details | **Code:** `PRF192`<br>**Name:** `Programming Fundamentals`<br>**Credits:** `3` | Subject added successfully to database. | ⏳ PENDING |
-| **TC19** | Subject Management | 1. Select 'Add Subject'<br>2. Enter invalid Credits (negative/zero) | **Code:** `PRF192`<br>**Credits:** `-1` | Error message *'Credits must be greater than 0'* displayed. | ⏳ PENDING |
-| **TC20** | Course Registration | 1. Select 'Register Course'<br>2. Select Student ID and Subject ID | **Student ID:** `ST000001`<br>**Subject ID:** `PRF192` | Enrollment record created successfully in database. | ⏳ PENDING |
-| **TC21** | Course Registration | 1. Select 'Register Course'<br>2. Select already registered Student ID and Subject ID | **Student ID:** `ST000001`<br>**Subject ID:** `PRF192` | Error message *'Duplicate enrollment is not allowed'* displayed. | ⏳ PENDING |
+| **TC17** | Class Management | 1. Select 'Add Class'<br>2. Enter duplicate Class Code | **Class Code:** `SE101` | Error message *'Class Code already exists'* displayed. | ✅ Passed |
+| **TC18** | Subject Management | 1. Select 'Add Subject'<br>2. Enter valid Subject details | **Code:** `PRF192`<br>**Name:** `Programming Fundamentals`<br>**Credits:** `3` | Subject added successfully to database. | ✅ Passed |
+| **TC19** | Subject Management | 1. Select 'Add Subject'<br>2. Enter invalid Credits (negative/zero) | **Code:** `PRF192`<br>**Credits:** `-1` | Error message *'Credits must be greater than 0'* displayed. | ✅ Passed |
+| **TC20** | Course Registration | 1. Select 'Register Course'<br>2. Select Student ID and Subject ID | **Student ID:** `ST000001`<br>**Subject ID:** `PRF192` | Enrollment record created successfully in database. | ✅ Passed |
+| **TC21** | Course Registration | 1. Select 'Register Course'<br>2. Select already registered Student ID and Subject ID | **Student ID:** `ST000001`<br>**Subject ID:** `PRF192` | Error message *'Duplicate enrollment is not allowed'* displayed. | ✅ Passed |
 
 ---
 
@@ -81,9 +81,9 @@
 
 | ID | Function | Test Steps | Input Data | Expected Result | Status |
 | :---: | :--- | :--- | :--- | :--- | :---: |
-| **TC22** | Grade Management | 1. Select 'Input Grade'<br>2. Enter Enrollment ID and valid score | **Enrollment ID:** `ENR001`<br>**Score:** `8.5` | Grade saved successfully, database updated with score 8.5. | ⏳ PENDING |
-| **TC23** | Grade Management | 1. Select 'Input Grade'<br>2. Enter invalid score (< 0 or > 10) | **Enrollment ID:** `ENR001`<br>**Score:** `10.5` | Error message *'Score must be between 0.0 and 10.0'* displayed. | ⏳ PENDING |
-| **TC24** | Teaching Assignment | 1. Select 'Assign Teacher'<br>2. Enter duplicate assignment for teacher and class | **Teacher ID:** `TCH01`<br>**Subject ID:** `PRF192`<br>**Class Code:** `SE101` | System rejects assignment due to existing duplicate assignment constraint. | ⏳ PENDING |
+| **TC22** | Grade Management | 1. Select 'Input Grade'<br>2. Enter Enrollment ID and valid score | **Enrollment ID:** `ENR001`<br>**Score:** `8.5` | Grade saved successfully, database updated with score 8.5. | ✅ Passed |
+| **TC23** | Grade Management | 1. Select 'Input Grade'<br>2. Enter invalid score (< 0 or > 10) | **Enrollment ID:** `ENR001`<br>**Score:** `10.5` | Error message *'Score must be between 0.0 and 10.0'* displayed. | ✅ Passed |
+| **TC24** | Teaching Assignment | 1. Select 'Assign Teacher'<br>2. Enter duplicate assignment for teacher and class | **Teacher ID:** `TCH01`<br>**Subject ID:** `PRF192`<br>**Class Code:** `SE101` | System rejects assignment due to existing duplicate assignment constraint. | ✅ Passed |
 
 ---
 
