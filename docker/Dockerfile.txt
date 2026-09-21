@@ -1,0 +1,69 @@
+# ==========================================
+# STAGE 1: Build Stage (Biên dịch C++ / Qt)
+# ==========================================
+FROM ubuntu:22.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    pkg-config \
+    qtbase5-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    libqt5sql5-mysql \
+    libqt5sql5-sqlite \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY . .
+
+RUN if [ -f "CMakeLists.txt" ]; then \
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && \
+        cmake --build build ; \
+    else \
+        mkdir -p build && cd build && \
+        qmake ../*.pro && make -j$(nproc) ; \
+    fi
+
+# ==========================================
+# STAGE 2: Runtime Stage (Môi trường chạy GUI)
+# ==========================================
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libqt5widgets5 \
+    libqt5gui5 \
+    libqt5core5a \
+    libqt5sql5 \
+    libqt5sql5-mysql \
+    libqt5sql5-sqlite \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libfontconfig1 \
+    libx11-xcb1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-xinerama0 \
+    libxcb-xfixes0 \
+    libxcb-shape0 \
+    libxkbcommon-x11-0 \
+    x11-apps \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY --from=builder /app/build /app/bin
+
+ENV QT_X11_NO_MITSHM=1
+ENV DISPLAY=:0
+
+CMD ["sh", "-c", "executable=$(find /app/bin -maxdepth 2 -type f -executable | head -n 1) && exec $executable"]
